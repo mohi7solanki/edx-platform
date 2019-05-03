@@ -12,10 +12,10 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 import mock
 from opaque_keys.edx.keys import CourseKey
-
 from rest_framework import status
 from rest_framework.test import APITestCase
 from six import text_type
+
 from lms.djangoapps.courseware.tests.factories import GlobalStaffFactory
 from lms.djangoapps.program_enrollments.api.v1.constants import CourseEnrollmentResponseStatuses as CourseStatuses
 from lms.djangoapps.program_enrollments.models import ProgramEnrollment, ProgramCourseEnrollment
@@ -28,7 +28,6 @@ from openedx.core.djangoapps.catalog.tests.factories import (
 )
 from openedx.core.djangoapps.content.course_overviews.tests.factories import CourseOverviewFactory
 from openedx.core.djangolib.testing.utils import CacheIsolationMixin
-
 from .factories import ProgramCourseEnrollmentFactory, ProgramEnrollmentFactory
 
 
@@ -231,7 +230,7 @@ class ProgramCacheTestCaseMixin(CacheIsolationMixin):
 class BaseCourseEnrollmentTestsMixin(ProgramCacheTestCaseMixin):
     """
     A base for tests for course enrollment.
-    Children must provide self.operation
+    Children should override self.request()
     """
 
     @classmethod

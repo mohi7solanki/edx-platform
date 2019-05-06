@@ -449,7 +449,7 @@ class ProgramCourseEnrollmentsView(DeveloperErrorViewMixin, ProgramCourseRunSpec
         """
         Enroll a list of students in a course in a program
         """
-        return self.process_enrollment_list_request(
+        return self.create_or_modify_enrollments(
             request,
             program_uuid,
             self.enroll_learner_in_course
@@ -460,15 +460,15 @@ class ProgramCourseEnrollmentsView(DeveloperErrorViewMixin, ProgramCourseRunSpec
         """
         Modify the program course enrollments of a list of learners
         """
-        return self.process_enrollment_list_request(
+        return self.create_or_modify_enrollments(
             request,
             program_uuid,
             self.modify_learner_enrollment_status
         )
 
-    def process_enrollment_list_request(self, request, program_uuid, operation):
+    def create_or_modify_enrollments(self, request, program_uuid, operation):
         """
-        Process a list of procgram course enrollment request objects
+        Process a list of program course enrollment request objects
         and create or modify enrollments based on method
         """
         self.check_course_existence_and_membership()

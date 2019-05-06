@@ -8,6 +8,7 @@ import logging
 import random
 import re
 from collections import Counter
+from datetime import datetime
 from smtplib import SMTPConnectError, SMTPDataError, SMTPException, SMTPServerDisconnected
 from time import sleep
 
@@ -29,7 +30,6 @@ from celery import current_task, task
 from celery.exceptions import RetryTaskError
 from celery.states import FAILURE, RETRY, SUCCESS
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.core.mail.message import forbid_multi_line_headers
 from django.urls import reverse
@@ -118,6 +118,7 @@ def _get_course_email_context(course):
         'account_settings_url': '{}{}'.format(settings.LMS_ROOT_URL, reverse('account_settings')),
         'email_settings_url': '{}{}'.format(settings.LMS_ROOT_URL, reverse('dashboard')),
         'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),
+        'year': datetime.now().year,
     }
     return email_context
 

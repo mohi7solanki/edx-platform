@@ -180,8 +180,14 @@ class ProgramCourseEnrollment(TimeStampedModel):  # pylint: disable=model-missin
             elif status == CourseEnrollmentResponseStatuses.INACTIVE:
                 self.course_enrollment.deactivate()
             else:
-                message = "Changed {enrollment} status to {status}, not changing status of its CourseEnrollment"
-                logger.warn(message.format(enrollment=self, status=status))
+                message = ("Changed {enrollment} status to {status}, not changing course_enrollment"
+                           " status because status is not '{active}' or '{inactive}'")
+                logger.warn(message.format(
+                    enrollment=self,
+                    status=status,
+                    active=CourseEnrollmentResponseStatuses.ACTIVE,
+                    inactive=CourseEnrollmentResponseStatuses.INACTIVE
+                ))
         elif self.program_enrollment.user:
             logger.warn("User {user} {program_enrollment} {course_key} has no course_enrollment".format(
                 user=self.program_enrollment.user,

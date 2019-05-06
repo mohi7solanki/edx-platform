@@ -13,7 +13,13 @@ the marketing site and blog).
 
 """
 import logging
-import urlparse
+try:
+    from urllib import urlencode
+    import urlparse
+except ImportError:
+    from urllib.parse import urlencode
+    import urllib.parse as urlparse
+
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -311,13 +317,22 @@ def _footer_legal_links(language=settings.LANGUAGE_CODE):
     ]
 
 
+def _add_enterprise_marketing_footer_query_params(url):
+    params = settings.ENTERPRISE_MARKETING_FOOTER_QUERY_PARAMS
+    if params:
+        return "{url}/?{params}".format(
+            url=url,
+            params=urlencode(params),
+        )
+    return url
+
 def _footer_business_links(language=settings.LANGUAGE_CODE):
     """Return the business links to display in the footer. """
     platform_name = configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)
     links = [
         ("about", (marketing_link("ABOUT"), _("About"))),
         ("enterprise", (
-            marketing_link("ENTERPRISE"),
+            _add_enterprise_marketing_footer_query_params(marketing_link("ENTERPRISE")),
             _(u"{platform_name} for Business").format(platform_name=platform_name)
         )),
     ]

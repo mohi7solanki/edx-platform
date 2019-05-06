@@ -1,6 +1,7 @@
 # encoding: utf-8
 """Tests of Branding API """
 from __future__ import unicode_literals
+from collections import OrderedDict
 
 import mock
 from django.conf import settings
@@ -56,6 +57,11 @@ class TestHeader(TestCase):
 class TestFooter(TestCase):
     maxDiff = None
     """Test retrieving the footer. """
+    @mock.patch.dict('django.conf.settings.ENTERPRISE_MARKETING_FOOTER_QUERY_PARAMS', OrderedDict([
+        ("utm_campaign", "edX.org Referral"),
+        ("utm_source", "edX.org"),
+        ("utm_medium", "Footer"),
+    ]))
     @mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MKTG_SITE': True})
     @mock.patch.dict('django.conf.settings.MKTG_URLS', {
         "ROOT": "https://edx.org",
@@ -74,7 +80,7 @@ class TestFooter(TestCase):
         "ACCESSIBILITY": "/accessibility",
         "AFFILIATES": '/affiliate-program',
         "MEDIA_KIT": "/media-kit",
-        "ENTERPRISE": "/enterprise"
+        "ENTERPRISE": "https://business.edx.org"
     })
     @override_settings(PLATFORM_NAME='\xe9dX')
     def test_get_footer(self):
@@ -95,7 +101,7 @@ class TestFooter(TestCase):
             ],
             'business_links': [
                 {'url': 'https://edx.org/about-us', 'name': 'about', 'title': 'About'},
-                {'url': 'https://edx.org/enterprise', 'name': 'enterprise', 'title': '\xe9dX for Business'},
+                {'url': 'https://business.edx.org/?utm_campaign=edX.org+Referral&utm_source=edX.org&utm_medium=Footer', 'name': 'enterprise', 'title': '\xe9dX for Business'},
                 {'url': 'https://edx.org/affiliate-program', 'name': 'affiliates', 'title': 'Affiliates'},
                 {'url': 'http://open.edx.org', 'name': 'openedx', 'title': 'Open edX'},
                 {'url': 'https://edx.org/careers', 'name': 'careers', 'title': 'Careers'},

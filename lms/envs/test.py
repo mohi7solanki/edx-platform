@@ -12,10 +12,10 @@ sessions. Assumes structure:
 # We intentionally define lots of variables that aren't used, and
 # want to import all variables from base settings files
 # pylint: disable=wildcard-import, unused-wildcard-import
+from collections import OrderedDict
 
 from django.utils.translation import ugettext_lazy
 
-from collections import OrderedDict
 from .common import *
 import os
 from path import Path as path

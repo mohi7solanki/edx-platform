@@ -15,6 +15,7 @@ sessions. Assumes structure:
 
 from django.utils.translation import ugettext_lazy
 
+from collections import OrderedDict
 from .common import *
 import os
 from path import Path as path
@@ -324,11 +325,11 @@ MKTG_URL_LINK_MAP = {
 SUPPORT_SITE_LINK = 'https://support.example.com'
 PASSWORD_RESET_SUPPORT_LINK = 'https://support.example.com/password-reset-help.html'
 ACTIVATION_EMAIL_SUPPORT_LINK = 'https://support.example.com/activation-email-help.html'
-ENTERPRISE_MARKETING_FOOTER_QUERY_PARAMS = {
-    "utm_campaign": "edX.org Referral",
-    "utm_source": "edX.org",
-    "utm_medium": "Footer",
-}
+ENTERPRISE_MARKETING_FOOTER_QUERY_PARAMS = OrderedDict([
+    ("utm_campaign", "edX.org Referral"),
+    ("utm_source", "edX.org"),
+    ("utm_medium", "Footer"),
+])
 
 ############################ STATIC FILES #############################
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'

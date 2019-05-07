@@ -91,7 +91,7 @@ class TestFooter(TestCase):
                          'trademarks or registered trademarks of edX Inc.',
             'navigation_links': [
                 {'url': 'https://edx.org/about-us', 'name': 'about', 'title': 'About'},
-                {'url': 'https://edx.org/enterprise', 'name': 'enterprise', 'title': '\xe9dX for Business'},
+                {'url': 'https://business.edx.org', 'name': 'enterprise', 'title': '\xe9dX for Business'},
                 {'url': 'https://edx.org/edx-blog', 'name': 'blog', 'title': 'Blog'},
                 {'url': 'https://edx.org/news-announcements', 'name': 'news', 'title': 'News'},
                 {'url': 'https://support.example.com', 'name': 'help-center', 'title': 'Help Center'},

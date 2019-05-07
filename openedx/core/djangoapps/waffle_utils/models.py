@@ -1,7 +1,8 @@
 """
 Models for configuring waffle utils.
 """
-from django.db.models import CharField
+from django.db import models
+from django.db.models import CharField, IntegerField, BooleanField
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 from opaque_keys.edx.django.models import CourseKeyField
@@ -61,3 +62,25 @@ class WaffleFlagCourseOverrideModel(ConfigurationModel):
     def __unicode__(self):
         enabled_label = "Enabled" if self.enabled else "Not Enabled"
         return u"Course '{}': Persistent Grades {}".format(text_type(self.course_id), enabled_label)
+
+
+class WaffleFlagDashboardCourseLoadCount(models.Model):
+    """
+    Flag for number of courses to show on dashboard.
+
+    """
+    # The course count that will be shown on dashboard.
+    courses_count = IntegerField(default=250)
+    enabled = BooleanField(default=True)
+
+    class Meta(object):
+        app_label = "waffle_utils"
+        verbose_name = 'Waffle flag Lms Dashboard Course Count'
+        verbose_name_plural = 'Waffle flag Lms Dashboard Course Count'
+
+    def __unicode__(self):
+        if self.enabled:
+            count = self.courses_count
+        else:
+            count = 250
+        return u"Dashboard is set to show {} Courses".format(count)

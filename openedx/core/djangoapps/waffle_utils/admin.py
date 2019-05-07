@@ -6,8 +6,8 @@ from django.contrib import admin
 from config_models.admin import KeyedConfigurationModelAdmin
 
 
-from .forms import WaffleFlagCourseOverrideAdminForm
-from .models import WaffleFlagCourseOverrideModel
+from .forms import WaffleFlagCourseOverrideAdminForm, WaffleFlagDashboardCourseLoadCountAdminForm
+from .models import WaffleFlagCourseOverrideModel, WaffleFlagDashboardCourseLoadCount
 
 
 class WaffleFlagCourseOverrideAdmin(KeyedConfigurationModelAdmin):
@@ -26,4 +26,26 @@ class WaffleFlagCourseOverrideAdmin(KeyedConfigurationModelAdmin):
         }),
     )
 
+
+class WaffleFlagDashboardCourseLoadCountAdmin(admin.ModelAdmin):
+    """
+    Admin for number of courses to show on dashboard.
+
+    """
+    form = WaffleFlagDashboardCourseLoadCountAdminForm
+    fieldsets = (
+        (None, {
+            'fields': ('courses_count', 'enabled'),
+            'description': 'Number of courses to show on dashboard.'
+        }),
+    )
+
+    def has_add_permission(self, request):
+        if WaffleFlagDashboardCourseLoadCount.objects.all():
+            return False
+        else:
+            return True
+
+
 admin.site.register(WaffleFlagCourseOverrideModel, WaffleFlagCourseOverrideAdmin)
+admin.site.register(WaffleFlagDashboardCourseLoadCount, WaffleFlagDashboardCourseLoadCountAdmin)

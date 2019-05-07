@@ -5,7 +5,7 @@ from django import forms
 
 from openedx.core.lib.courses import clean_course_id
 
-from .models import WaffleFlagCourseOverrideModel
+from .models import WaffleFlagCourseOverrideModel, WaffleFlagDashboardCourseLoadCount
 
 
 class WaffleFlagCourseOverrideAdminForm(forms.ModelForm):
@@ -33,3 +33,12 @@ class WaffleFlagCourseOverrideAdminForm(forms.ModelForm):
             raise forms.ValidationError(msg)
 
         return cleaned_flag.strip()
+
+
+class WaffleFlagDashboardCourseLoadCountAdminForm(forms.ModelForm):
+    """
+    Input form for number of courses to show on dashboard.
+    """
+    class Meta(object):
+        model = WaffleFlagDashboardCourseLoadCount
+        fields = '__all__'

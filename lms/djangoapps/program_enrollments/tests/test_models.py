@@ -4,7 +4,7 @@ Unit tests for ProgramEnrollment models.
 from __future__ import unicode_literals
 
 from uuid import uuid4
-from testfixtures import log_capture
+from testfixtures import LogCapture
 
 from django.test import TestCase
 from opaque_keys.edx.keys import CourseKey
@@ -132,26 +132,26 @@ class ProgramCourseEnrollmentModelTests(TestCase):
             status="active"
         )
 
-    @log_capture
-    def test_change_status_no_enrollment(self, capture):
-        self.program_course_enrollment.course_enrollment = None
-        self.program_course_enrollment.change_status("inactive")
-        expected_message = "User {} {} {} has no course_enrollment".format(
-            self.user,
-            self.program_enrollment,
-            self.course_key
-        )
-        capture.check(
-            ('ProgramCourseEnrollment', 'WARNING', expected_message)
-        )
+    def test_change_status_no_enrollment(self):
+        with LogCapture() as capture:
+            self.program_course_enrollment.course_enrollment = None
+            self.program_course_enrollment.change_status("inactive")
+            expected_message = "User {} {} {} has no course_enrollment".format(
+                self.user,
+                self.program_enrollment,
+                self.course_key
+            )
+            capture.check(
+                ('lms.djangoapps.program_enrollments.models', 'WARNING', expected_message)
+            )
 
-    @log_capture
-    def test_change_status_not_active_or_inactive(self, capture):
-        status = "potential-future-status-0123"
-        self.program_course_enrollment.change_status(status)
-        message = ("Changed {} status to {}, not changing course_enrollment"
-                   " status because status is not 'active' or 'inactive'")
-        expected_message = message.format(self.program_course_enrollment, status)
-        capture.check(
-            ('ProgramCourseEnrollment', 'WARNING', expected_message)
-        )
+    def test_change_status_not_active_or_inactive(self):
+        with LogCapture() as capture:
+            status = "potential-future-status-0123"
+            self.program_course_enrollment.change_status(status)
+            message = ("Changed {} status to {}, not changing course_enrollment"
+                       " status because status is not 'active' or 'inactive'")
+            expected_message = message.format(self.program_course_enrollment, status)
+            capture.check(
+                ('lms.djangoapps.program_enrollments.models', 'WARNING', expected_message)
+            )

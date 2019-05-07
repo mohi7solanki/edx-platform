@@ -326,6 +326,7 @@ def _add_enterprise_marketing_footer_query_params(url):
         )
     return url
 
+
 def _footer_business_links(language=settings.LANGUAGE_CODE):
     """Return the business links to display in the footer. """
     platform_name = configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)

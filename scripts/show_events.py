@@ -14,6 +14,7 @@ else:
         return d.strftime(fmt)
 
 
+    
 def display(message):
     print('{} - {}'.format(date_string(message['time']), message['event_type']))
     if message.get('event'):
